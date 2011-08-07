@@ -16,12 +16,12 @@ not.(I am not sure why. Latency of X RECORD?)
 How To Use
 ----------
 * Get sounds you like. In my demo, using [Grand Piano Chords Fazioli Minor Samples Highest Pitch](http://ibeat.org/piano-chords-free/).
-* Rename them from 'a' to 'z', and put them in 'audio/' directory (See `loadSounds' function).
+* Rename them from 'a.wav' to 'l.wav' for 12 sound files and put them in 'audio/' directory (See `loadSounds` function).
 * Install libraries (these are the package names in Ubuntu).
-  > libsdl-mixer1.2-dev
-  > libxtst-dev
-* Compile with `gcc pianistic.c -o pianistic -g `sdl-config --cflags --libs` -lSDL_mixer -lX11'
-* Start ./pianistic, and enjoy!
+  * libsdl-mixer1.2-dev
+  * libxtst-dev
+* Run `make` to compile or manually Compile with ``gcc pianistic.c -o pianistic -g `sdl-config --cflags --libs` -lSDL_mixer -lX11 -lXtst``.
+* Start `./pianistic`, and enjoy!
 
 Problems
 --------

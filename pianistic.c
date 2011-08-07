@@ -106,7 +106,7 @@ int main (int argc, char **argv)
   }
 
   rr->device_events.first = KeyPress;
-  rr->device_events.last = MotionNotify;
+  rr->device_events.last = KeyPress;
   rcs = XRecordAllClients;
 
   rc = XRecordCreateContext (ctrl_disp, 0, &rcs, 1, &rr, 1);
@@ -122,6 +122,9 @@ int main (int argc, char **argv)
 
   while (stop != 1) {
     XRecordProcessReplies (data_disp);
+    // 1000 might be still too low, human can't type too fast and keyboard has
+    // input rate limit as well.
+    usleep(1000);
   }
 
   // SDL
