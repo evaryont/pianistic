@@ -38,6 +38,9 @@ Display *ctrl_disp = NULL;
 /* stop flag */
 int stop = 0;
 
+/* Exit key */
+KeyCode exit_key = 0;
+
 void event_callback (XPointer, XRecordInterceptData*);
 void play (int index);
 Mix_Chunk *sounds[12];
@@ -81,6 +84,18 @@ int main (int argc, char **argv)
     fprintf (stderr, "Error to open local display!\n");
     exit (1);
   }
+
+  if (argc == 2) {
+    KeySym keysym;
+    if ((keysym = XStringToKeysym(argv[1])) != NoSymbol)
+      exit_key = XKeysymToKeycode(ctrl_disp, keysym);
+    if (!exit_key)
+      fprintf (stderr, "Can not recoginze key: %s.\n", argv[1]);
+  }
+  if (!exit_key)
+    exit_key = XKeysymToKeycode(ctrl_disp, XK_Escape);
+  printf ("Press %s anywhere to exit program.\n",
+          XKeysymToString(XKeycodeToKeysym(ctrl_disp, exit_key, 0)));
 
   /*
    * we must set the ctrl_disp to sync mode, or, when we the enalbe
@@ -157,8 +172,8 @@ void event_callback(XPointer priv, XRecordInterceptData *hook)
   keycode = data->event.u.u.detail;
   switch (event_type) {
   case KeyPress:
-    /* if escape is pressed, stop the loop and clean up, then exit */
-    if (keycode == 9) stop = 1;
+    /* if exit_key is pressed, stop the loop and clean up, then exit */
+    if (keycode == exit_key) stop = 1;
 
     play(keycode);
     // printf ("KeyPress: \t%s", XKeysymToString(XKeycodeToKeysym(ctrl_disp, keycode, 0)));
