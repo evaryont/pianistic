@@ -4,5 +4,5 @@ SDLCONFIG = -g ${shell sdl-config --cflags --libs}
 
 all: pianistic
 
-pianistic:
-	$(CC) -o $@ $@.c ${LDLIBS} ${SDLCONFIG}
+pianistic: pianistic.c
+	$(CC) -o $@ $< ${LDLIBS} ${SDLCONFIG}

@@ -40,19 +40,19 @@ int stop = 0;
 
 void event_callback (XPointer, XRecordInterceptData*);
 void play (int index);
-Mix_Music* sounds[26];
+Mix_Chunk *sounds[12];
 
 void loadSounds(){
   char path[256];
   int letter = 0;
   for (;letter < 12; letter ++) {
     sprintf(path, "audio/%c.wav", letter + 'a');
-    sounds[letter] = Mix_LoadMUS(path);
+    sounds[letter] = Mix_LoadWAV(path);
   }
 }
 
 void play(int index) {
-  Mix_PlayMusic(sounds[index%12], 0);
+  Mix_PlayChannel(index%12, sounds[index%12], 0);
 }
 
 int main (int argc, char **argv)
@@ -69,6 +69,7 @@ int main (int argc, char **argv)
     printf("Unable to open audio!\n");
     exit(1);
   }
+  Mix_AllocateChannels(12);
   loadSounds();
 
   // RECORD
